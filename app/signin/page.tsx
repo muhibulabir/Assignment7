@@ -1,10 +1,16 @@
-import AuthForm from '../components/auth-form'
-import type { Metadata } from 'next'
-
-export const metadata: Metadata = {
-  title: 'লগইন | বাজার দর',
-}
+import { Suspense } from "react";
+import { AuthForm } from "@/components/auth-form";
 
 export default function SignInPage() {
-  return <AuthForm mode="signin" />
+  return (
+    <Suspense
+      fallback={
+        <div className="container-shell grid min-h-[70vh] place-items-center">
+          <span className="loading loading-spinner loading-lg text-leaf" />
+        </div>
+      }
+    >
+      <AuthForm mode="signin" />
+    </Suspense>
+  );
 }

@@ -1,10 +1,5 @@
-import AuthForm from '../components/auth-form'
-import type { Metadata } from 'next'
-
-export const metadata: Metadata = {
-  title: 'রেজিস্টার | বাজার দর',
-}
+import { AuthForm } from "@/components/auth-form";
 
 export default function SignUpPage() {
-  return <AuthForm mode="signup" />
+  return <AuthForm mode="signup" />;
 }
