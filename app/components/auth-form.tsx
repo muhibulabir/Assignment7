@@ -1,17 +1,23 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, type FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import { authClient } from '../../lib/auth-client'
 
-export default function AuthForm({ mode }) {
+type AuthFormProps = {
+  mode: 'signin' | 'signup'
+}
+
+type SocialProvider = 'google' | 'github'
+
+export default function AuthForm({ mode }: AuthFormProps) {
   const router = useRouter()
   const [error, setError] = useState('')
   const [isPending, setIsPending] = useState(false)
   const isSignUp = mode === 'signup'
 
-  async function handleSubmit(event) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setError('')
     setIsPending(true)
@@ -40,7 +46,7 @@ export default function AuthForm({ mode }) {
     }
   }
 
-  async function handleSocialSignIn(provider) {
+  async function handleSocialSignIn(provider: SocialProvider) {
     setError('')
     setIsPending(true)
 

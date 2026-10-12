@@ -1,33 +1,60 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  font-family: "Noto Sans Bengali", "Hind Siliguri", "Nirmala UI", sans-serif;
-  color: #26362d;
-  background: #f1f6f1;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
+  color-scheme: light;
 }
 
 html {
-  min-width: 320px;
-  min-height: 100%;
   scroll-behavior: smooth;
+  scroll-padding-top: 96px;
 }
 
 body {
-  min-width: 320px;
-  min-height: 100vh;
-  margin: 0;
+  font-family: "Hind Siliguri", "Noto Sans Bengali", "Nirmala UI", "Segoe UI", sans-serif;
 }
 
 button,
-a,
-summary {
-  -webkit-tap-highlight-color: transparent;
+input,
+select {
+  font: inherit;
+}
+
+.container-shell {
+  width: min(100% - 2rem, 72rem);
+  margin-inline: auto;
+}
+
+.design-surface {
+  border: 1px solid #e1e8e1;
+  background: #fafcfa;
+}
+
+.section-space {
+  padding-block: clamp(3rem, 7vw, 5.5rem);
+}
+
+.ticker-track {
+  animation: ticker 42s linear infinite;
+}
+
+.ticker-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes ticker {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .ticker-track {
+    animation: none;
+  }
 }

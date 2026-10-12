@@ -1,6 +1,12 @@
 import Link from 'next/link'
+import type { Metadata } from 'next'
 import './dashboard.css'
 import AuthControls from './components/auth-controls'
+
+export const metadata: Metadata = {
+  title: 'বাজার দর',
+  description: 'আজকের বাজারের দাম এক নজরে দেখুন।',
+}
 
 const prices = [
   { name: 'পেঁয়াজ', unit: 'প্রতি কেজি', icon: '🧅', price: '৫৪ টাকা', change: '৪.৫%', trend: 'up' },
@@ -9,11 +15,11 @@ const prices = [
   { name: 'রুই মাছ', unit: 'প্রতি কেজি', icon: '🐟', price: '৩২০ টাকা', change: '২.১%', trend: 'down' },
   { name: 'ডিম', unit: 'প্রতি ডজন', icon: '🥚', price: '১৪৫ টাকা', change: '৩.২%', trend: 'up' },
   { name: 'ময়দা (৫০০ গ্রাম)', unit: 'প্রতি প্যাকেট', icon: '🌽', price: '৪০ টাকা', change: '০.৬%', trend: 'down' },
-]
+] as const
 
 const navItems = ['চাল', 'ডাল', 'তেল', 'সবজি', 'মাছ', 'মাংস', 'চিনি-লবণ', 'মসলা']
 
-function App() {
+export default function DashboardPage() {
   return (
     <main className="market-app min-h-screen">
       <header className="topbar">
@@ -82,5 +88,3 @@ function App() {
     </main>
   )
 }
-
-export default App

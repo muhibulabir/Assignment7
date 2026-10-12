@@ -7,7 +7,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "oxlint"
+    "lint": "oxlint",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.3.3",
@@ -20,6 +21,9 @@
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
-    "oxlint": "^1.81.0"
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.3.0",
+    "oxlint": "^1.81.0",
+    "typescript": "^7.0.2"
   }
 }

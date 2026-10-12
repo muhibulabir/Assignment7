@@ -1,6 +1,7 @@
 import AuthForm from '../components/auth-form'
+import type { Metadata } from 'next'
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'রেজিস্টার | বাজার দর',
 }
 
