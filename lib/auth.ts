@@ -19,20 +19,36 @@ function createAuth() {
     globalForMongo.mongoClient ?? new MongoClient(mongoUri);
   globalForMongo.mongoClient = mongoClient;
 
+  const googleClientId = process.env.GOOGLE_CLIENT_ID;
+  const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
+  if (Boolean(googleClientId) !== Boolean(googleClientSecret)) {
+    throw new Error(
+      "Set both GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET to enable Google sign-in.",
+    );
+  }
+
+  const githubClientId = process.env.GITHUB_CLIENT_ID;
+  const githubClientSecret = process.env.GITHUB_CLIENT_SECRET;
+  if (Boolean(githubClientId) !== Boolean(githubClientSecret)) {
+    throw new Error(
+      "Set both GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET to enable GitHub sign-in.",
+    );
+  }
+
   const socialProviders = {
-    ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET
+    ...(googleClientId && googleClientSecret
       ? {
           google: {
-            clientId: process.env.GOOGLE_CLIENT_ID,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            clientId: googleClientId,
+            clientSecret: googleClientSecret,
           },
         }
       : {}),
-    ...(process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET
+    ...(githubClientId && githubClientSecret
       ? {
           github: {
-            clientId: process.env.GITHUB_CLIENT_ID,
-            clientSecret: process.env.GITHUB_CLIENT_SECRET,
+            clientId: githubClientId,
+            clientSecret: githubClientSecret,
           },
         }
       : {}),
@@ -45,10 +61,21 @@ function createAuth() {
       : process.env.VERCEL_URL
         ? `https://${process.env.VERCEL_URL}`
         : "http://localhost:3000");
+  const trustedOrigins = [
+    baseURL,
+    process.env.VERCEL_URL && `https://${process.env.VERCEL_URL}`,
+    process.env.VERCEL_PROJECT_PRODUCTION_URL &&
+      `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`,
+    process.env.VERCEL_BRANCH_URL &&
+      `https://${process.env.VERCEL_BRANCH_URL}`,
+  ]
+    .filter((origin): origin is string => Boolean(origin))
+    .map((origin) => new URL(origin).origin);
 
   return betterAuth({
     baseURL,
     secret,
+    trustedOrigins: [...new Set(trustedOrigins)],
     database: mongodbAdapter(
       mongoClient.db(process.env.MONGODB_DATABASE ?? "bazardor"),
       { client: mongoClient, transaction: false },

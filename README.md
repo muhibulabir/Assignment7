@@ -48,13 +48,32 @@
    Copy-Item .env.example .env.local
    ```
 
-3. Set a unique `BETTER_AUTH_SECRET` (at least 32 characters) and confirm `BETTER_AUTH_URL=http://localhost:3000`. You can generate a secret with:
+3. Fill in the values in `.env.local`:
+
+   ```powershell
+   BETTER_AUTH_SECRET=<unique-random-secret-of-at-least-32-characters>
+   BETTER_AUTH_URL=http://localhost:3000
+   MONGODB_URI=<MongoDB-Atlas-connection-string>
+   MONGODB_DATABASE=bazardor
+   GOOGLE_CLIENT_ID=
+   GOOGLE_CLIENT_SECRET=
+   GITHUB_CLIENT_ID=
+   GITHUB_CLIENT_SECRET=
+   BAZARDOR_API_URL=https://api.api-store.workers.dev/api/bazardor
+   ```
+
+   Generate the auth secret with:
 
    ```powershell
    node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
    ```
 
-   Set `MONGODB_URI` to your MongoDB connection string and `MONGODB_DATABASE` to the database name. The example URI connects to a local MongoDB server; for MongoDB Atlas, use the connection string from your Atlas cluster and allow your app's IP in the Atlas network access settings. Better Auth creates the required collections and indexes automatically; no database migration command is needed. Transactions are disabled so the adapter also works with a standalone local MongoDB server.
+   Use a MongoDB database user in the Atlas connection string, URL-encode any
+   special characters in its password, and allow the app's IP under Atlas
+   Network Access. Better Auth stores accounts and sessions in the `bazardor`
+   database. Product and category market data is currently fetched from
+   `BAZARDOR_API_URL`; configuring MongoDB does not import market data into it.
+   Keep `.env.local` private and never commit it.
 
 4. For Google and GitHub sign-in, create OAuth apps with the callback URLs below, then add their client IDs and secrets to `.env.local`. These providers remain optional; email/password auth works without them.
 
@@ -84,22 +103,25 @@ Set `BETTER_AUTH_URL`, a strong `BETTER_AUTH_SECRET`, `MONGODB_URI`, and `MONGOD
 
 ## Deploying to Vercel
 
-In **Project → Settings → Environment Variables**, set these values for the
-Production environment (and Preview too if you use preview deployments):
+In **Project → Settings → Environment Variables**, configure these values:
 
 | Variable | Value |
 | --- | --- |
 | `MONGODB_URI` | MongoDB Atlas connection string using a database user |
 | `MONGODB_DATABASE` | `bazardor` |
 | `BETTER_AUTH_SECRET` | A unique random secret of at least 32 characters |
-| `BETTER_AUTH_URL` | The exact public production origin, for example `https://your-project.vercel.app` |
-| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google OAuth credentials, if Google sign-in is enabled |
-| `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET` | GitHub OAuth credentials, if GitHub sign-in is enabled |
+| `BETTER_AUTH_URL` | Production only: the exact public origin, e.g. `https://your-project.vercel.app`. Leave unset on Preview deployments so Vercel's deployment URL is used. |
+| `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` | Add both for Google sign-in; otherwise leave both unset |
+| `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` | Add both for GitHub sign-in; otherwise leave both unset |
+| `BAZARDOR_API_URL` | Optional market-data API URL; defaults to the public BazarDor API |
 
 Do not commit these values or expose them in browser-side variables. In MongoDB
 Atlas, allow the Vercel deployment to reach the cluster under **Network Access**.
 After changing environment variables, redeploy so the new deployment receives
-them.
+them. The server trusts the exact `BETTER_AUTH_URL` and Vercel deployment,
+production, and branch origins; it does not trust arbitrary Vercel subdomains.
+The MongoDB database stores Better Auth accounts and sessions; product and
+category prices are fetched from `BAZARDOR_API_URL`, not MongoDB.
 
 Register these exact callback URLs with the OAuth providers, replacing the
 example host with the same origin configured as `BETTER_AUTH_URL`:
