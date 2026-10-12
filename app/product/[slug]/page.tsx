@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { MarketDataError } from "@/components/market-data-error";
 import { ApiRequestError, getProduct, getProductDescription } from "@/lib/api";
-import { auth } from "@/lib/auth";
+import { getAuth } from "@/lib/auth";
 import { formatPrice, formatUnit, toBengaliDigits } from "@/lib/format";
 import type { Product } from "@/types/bazardor";
 
@@ -24,7 +24,7 @@ export default async function ProductDetailPage({
   }
   if (!product) notFound();
 
-  const session = await auth.api.getSession({ headers: await headers() });
+  const session = await getAuth().api.getSession({ headers: await headers() });
   if (!session) {
     redirect(`/signin?reason=protected&callbackURL=${encodeURIComponent(`/product/${slug}`)}`);
   }

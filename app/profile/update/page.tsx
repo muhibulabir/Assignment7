@@ -2,12 +2,12 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { ProfileSignOutButton } from "@/components/profile-sign-out-button";
 import { ProfileUpdateForm } from "@/components/profile-update-form";
-import { auth } from "@/lib/auth";
+import { getAuth } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
 export default async function ProfileUpdatePage() {
-  const session = await auth.api.getSession({ headers: await headers() });
+  const session = await getAuth().api.getSession({ headers: await headers() });
   if (!session) {
     redirect("/signin?reason=profile&callbackURL=%2Fprofile%2Fupdate");
   }
