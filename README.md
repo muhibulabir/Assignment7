@@ -74,6 +74,34 @@ Run `npm run lint` and `npm run typecheck` to check the source before building.
 
 Set `BETTER_AUTH_URL`, a strong `BETTER_AUTH_SECRET`, `MONGODB_URI`, and `MONGODB_DATABASE` for the host running the production server. Configure `BAZARDOR_API_URL` to override the default API endpoint.
 
+## Deploying to Vercel
+
+In **Project → Settings → Environment Variables**, set these values for the
+Production environment (and Preview too if you use preview deployments):
+
+| Variable | Value |
+| --- | --- |
+| `MONGODB_URI` | MongoDB Atlas connection string using a database user |
+| `MONGODB_DATABASE` | `bazardor` |
+| `BETTER_AUTH_SECRET` | A unique random secret of at least 32 characters |
+| `BETTER_AUTH_URL` | The exact public production origin, for example `https://your-project.vercel.app` |
+| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google OAuth credentials, if Google sign-in is enabled |
+| `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET` | GitHub OAuth credentials, if GitHub sign-in is enabled |
+
+Do not commit these values or expose them in browser-side variables. In MongoDB
+Atlas, allow the Vercel deployment to reach the cluster under **Network Access**.
+After changing environment variables, redeploy so the new deployment receives
+them.
+
+Register these exact callback URLs with the OAuth providers, replacing the
+example host with the same origin configured as `BETTER_AUTH_URL`:
+
+- Google: `https://your-project.vercel.app/api/auth/callback/google`
+- GitHub: `https://your-project.vercel.app/api/auth/callback/github`
+
+For local development, register the corresponding `http://localhost:3000`
+callback URLs as well if the provider allows multiple redirect URIs.
+
 ## API response shape
 
 Product and category list endpoints return JSON arrays. Product entries include IDs, slugs, Bangla names, category details, unit, current and historical prices, change direction/percentage, and per-market minimum/maximum prices. Individual product and category endpoints return one object. The API types are in `types/bazardor.ts`; requests use the configured primary URL.

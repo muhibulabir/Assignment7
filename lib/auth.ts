@@ -7,6 +7,10 @@ function createAuth() {
   if (!mongoUri) {
     throw new Error("MONGODB_URI must be set to connect Better Auth to MongoDB.");
   }
+  const secret = process.env.BETTER_AUTH_SECRET;
+  if (!secret) {
+    throw new Error("BETTER_AUTH_SECRET must be set to initialize Better Auth.");
+  }
 
   const globalForMongo = globalThis as typeof globalThis & {
     mongoClient?: MongoClient;
@@ -34,9 +38,17 @@ function createAuth() {
       : {}),
   };
 
+  const baseURL =
+    process.env.BETTER_AUTH_URL ??
+    (process.env.VERCEL_PROJECT_PRODUCTION_URL
+      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+      : process.env.VERCEL_URL
+        ? `https://${process.env.VERCEL_URL}`
+        : "http://localhost:3000");
+
   return betterAuth({
-    baseURL: process.env.BETTER_AUTH_URL ?? "http://localhost:3000",
-    secret: process.env.BETTER_AUTH_SECRET,
+    baseURL,
+    secret,
     database: mongodbAdapter(
       mongoClient.db(process.env.MONGODB_DATABASE ?? "bazardor"),
       { client: mongoClient, transaction: false },
