@@ -1,28 +1,36 @@
-# বাজার দর (BazarDor)
+# বাজার দর | BazarDor
 
-**বাংলাদেশের নিত্যপ্রয়োজনীয় পণ্যের বাজারদর এক নজরে।** BazarDor brings daily product prices, market-to-market comparisons, and price movements together in a responsive Bangla-first experience.
+> **বাংলাদেশের নিত্যপ্রয়োজনীয় পণ্যের বাজারদর এক নজরে।**
+>
+> BazarDor is a Bangla-first market dashboard for checking daily prices,
+> comparing markets, and following price changes.
 
-- **Live demo:** `https://your-live-domain.example`
-- **Repository:** `https://github.com/your-username/bazardor`
+| Project | Link |
+| --- | --- |
+| Live demo | [assignment7-buxecwaq2-scarlet13.vercel.app](https://assignment7-buxecwaq2-scarlet13.vercel.app/) |
+| Repository | [muhibulabir/Assignment7](https://github.com/muhibulabir/Assignment7) |
 
-## Tech stack
+## Technologies
 
-- Next.js App Router and TypeScript
-- Tailwind CSS and DaisyUI
-- Better Auth with email/password, Google, and GitHub providers
-- MongoDB storage for Better Auth accounts and sessions
-- react-hot-toast notifications
-- BazarDor products and categories API
+- **Next.js** — App Router and server-rendered pages
+- **TypeScript** — typed application code
+- **Tailwind CSS** and **DaisyUI** — responsive styling and UI components
+- **Better Auth** — email/password and optional Google/GitHub sign-in
+- **MongoDB** — user accounts, sessions, and verification data
+- **BazarDor API** — product, category, and market price data
 
 ## Key features
 
-1. Bangla-first responsive navigation, live date, and a pause-on-hover scrolling price ticker.
-2. Market overview with the six largest price risers, six largest fallers, and all listed products.
-3. Numeric price sorting, Bengali digit formatting, category browsing, and product price comparisons by market.
-4. Authenticated product details and profile pages, including profile-name updates.
-5. Email/password registration and sign-in, plus optional Google and GitHub OAuth.
-6. Loading skeletons, empty category states, toast feedback, and a custom not-found page.
-7. Primary API requests and dynamic App Router routes that work on direct navigation and refresh.
+1. **Bangla-first market dashboard** with responsive navigation and a scrolling
+   ticker of current prices.
+2. **Daily price overview** highlighting the biggest price increases and
+   decreases alongside the full product list.
+3. **Product discovery and comparisons** with category browsing, price sorting,
+   and market-by-market price details.
+4. **Secure accounts and profiles** with email/password authentication,
+   optional Google and GitHub OAuth, and profile-name updates.
+5. **Helpful responsive experience** with Bengali price formatting, loading and
+   error states, notifications, and direct links to product and category pages.
 
 ## Local setup
 
