@@ -1,0 +1,25 @@
+{
+  "name": "assignment7",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "oxlint"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "better-auth": "^1.7.7",
+    "mongodb": "^7.7.0",
+    "next": "^16.4.0",
+    "postcss": "^8.5.29",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "oxlint": "^1.81.0"
+  }
+}
